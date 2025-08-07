@@ -1,0 +1,19 @@
+name: Cron Test
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '59 16 * * *'
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Say hello from branch
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "Hello from $BRANCH_NAME"
