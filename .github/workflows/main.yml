@@ -3,7 +3,7 @@ name: Cron Test
 on:
   workflow_dispatch:
   schedule:
-    - cron: '04 17 * * *'
+    - cron: '02 17 * * *'
 
 jobs:
   run-script:
