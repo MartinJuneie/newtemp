@@ -18,5 +18,5 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
 
-        - name: call-shared-workflow-2:
-          uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
+      - name: call-shared-workflow-2
+        uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
