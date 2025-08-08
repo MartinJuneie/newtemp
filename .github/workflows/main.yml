@@ -8,10 +8,4 @@ on:
 
 jobs:
   call-shared-on-branches:
-    strategy:
-      matrix:
-        branch: [main, testbranch]
     uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
-    with:
-      branch: ${{ matrix.branch }}
-    secrets: inherit
