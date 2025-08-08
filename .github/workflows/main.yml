@@ -8,15 +8,10 @@ on:
 
 jobs:
   call-shared-on-branches:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         branch: [main, testbranch]
-    steps:
-      - name: Checkout specific branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ matrix.branch }}
-
-      - name: call-shared-workflow-2
-        uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
+    uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
+    with:
+      branch: ${{ matrix.branch }}
+    secrets: inherit
