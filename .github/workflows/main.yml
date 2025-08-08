@@ -7,27 +7,13 @@ on:
     - cron: '02 17 * * *'
 
 jobs:
-  run-script:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
   call-shared-workflow-1:
-    needs: run-script
     uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
-
-  checkout-testbranch:
-    runs-on: ubuntu-latest
-    needs: call-shared-workflow-1
-    steps:
-      - name: Checkout testbranch
-        uses: actions/checkout@v4
-        with:
-          ref: testbranch
+    with:
+      branch_name: 'main'
 
   call-shared-workflow-2:
-    needs: checkout-testbranch
+    needs: call-shared-workflow-1
     uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
+    with:
+      branch_name: 'testbranch'
