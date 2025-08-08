@@ -17,3 +17,14 @@ jobs:
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "Hello from $BRANCH_NAME"
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: testbranch
+
+      - name: Say hello from branch
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "Hello from $BRANCH_NAME"
+          cat testfile.txt
