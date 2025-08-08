@@ -9,3 +9,5 @@ on:
 jobs:
   call-shared-on-branches:
     uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
+    with:
+      branch_name: ${{ github.ref_name }}
