@@ -18,7 +18,7 @@ jobs:
 
       - name: Say hello from branch
         run: |
-          TIMESTAMP = &(date -u + "%Y-%m-%d %H:%M:%S.%f %Z")
+          TIMESTAMP = $(date -u + "%Y-%m-%d %H:%M:%S.%f %Z")
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "Hello from $BRANCH_NAME on $TIMESTAMP"
 
