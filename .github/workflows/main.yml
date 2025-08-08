@@ -1,0 +1,11 @@
+name: Cron Test
+
+on:
+  workflow_dispatch:
+  push:
+  schedule:
+    - cron: '02 17 * * *'
+
+jobs:
+  call-shared-on-branches:
+    uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
