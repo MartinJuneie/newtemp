@@ -17,7 +17,7 @@ jobs:
           ref: main
 
   call-shared-workflow-1:
-    uses: MartinJuneie/temp/.github/workflows/your-shared-workflow.yml@main
+    uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
 
   checkout-testbranch:
     runs-on: ubuntu-latest
@@ -28,4 +28,4 @@ jobs:
           ref: testbranch
 
   call-shared-workflow-2:
-    uses: MartinJuneie/temp/.github/workflows/your-shared-workflow.yml@main
+    uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
