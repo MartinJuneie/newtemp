@@ -2,6 +2,7 @@ name: Cron Test
 
 on:
   workflow_dispatch:
+  push:
   schedule:
     - cron: '02 17 * * *'
 
