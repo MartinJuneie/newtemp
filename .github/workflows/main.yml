@@ -27,4 +27,4 @@ jobs:
     needs: process-testfile
     uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
     with:
-      file-path: newtest.txt
+      file-path: newtest
