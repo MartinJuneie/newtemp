@@ -1,4 +1,4 @@
-name: Cron Test
+name: Process and Call Shared Workflow
 
 on:
   workflow_dispatch:
@@ -7,5 +7,18 @@ on:
     - cron: '02 17 * * *'
 
 jobs:
+  process-testfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create newtest.txt
+        run: |
+          grep -v '^containerImagepath' testfile.txt > newtest.txt
+
   call-shared-on-branches:
+    needs: process-testfile
     uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
+    with:
+      file-path: newtest.txt
