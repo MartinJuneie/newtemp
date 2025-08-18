@@ -58,7 +58,7 @@ jobs:
 
       - name: Run extract tags script
         id: extract_tags
-        run: python3 scripts/extract_tags.py
+        run: python3 .github/scripts/extract_tags.py
 
       - name: Print Output
         run: |
