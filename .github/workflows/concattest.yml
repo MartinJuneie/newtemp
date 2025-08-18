@@ -25,14 +25,14 @@ jobs:
 
       - name: Set concatenated variable
         id: concat_val
-        run: echo "valueout=${{ matrix.gar_data }}:${{ env.valuez }}" >> $GITHUB_OUTPUT
+        run: echo "value=${{ matrix.gar_data }}:${{ env.valuez }}" >> $GITHUB_OUTPUT
 
       - name: Create JSON
         run: |
           cat <<EOF > output.json
           {
             "name": "Repo1",
-            "imagepath": "${{ env.valueout }}"
+            "imagepath": "${{ steps.concat_val.outputs.value }}"
           }
           EOF
           cat output.json
