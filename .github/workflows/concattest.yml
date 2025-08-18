@@ -1,0 +1,38 @@
+name: Concatenation Test
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  process-testfile:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        gar_data:
+          - northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/decision-service
+          - northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/frontend-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run extract tags script
+        id: extract_tags
+        run: python3 .github/scripts/concattest.py
+
+      - name: Set concatenated variable
+        id: concat_val
+        run: echo "value=${{ matrix.gar_data }}:${{ steps.extract_tags.outputs.value }}" >> $GITHUB_OUTPUT
+
+      - name: Create JSON
+        run: |
+          cat <<EOF > output.json
+          {
+            "name": "Repo1",
+            "imagepath": "${{ steps.concat_val.outputs.value }}"
+          }
+          EOF
+          cat output.json

@@ -1,8 +1,8 @@
-name: Process and Call Shared Workflow
+name: Qualys Trial
 
 on:
   workflow_dispatch:
-  push:
+  # push:
 
 jobs:
   process-testfile:
@@ -83,7 +83,7 @@ jobs:
                 "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/versions/sha256:abff37cc35710eab06e4d89dee1cfba985ddee23f4bd2059e67cb8562258a0bc"
               },
               {
-                "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/front
+                "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/frontend",
                 "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/tags/service-frontend",
                 "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/versions/sha256:e01e4cb3c090bc96058fcc19b1a2be6eca22d69a0d6f39faf7fbdeeaf4c83a7b"
               },
