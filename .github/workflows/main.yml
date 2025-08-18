@@ -3,8 +3,6 @@ name: Process and Call Shared Workflow
 on:
   workflow_dispatch:
   push:
-  schedule:
-    - cron: '02 17 * * *'
 
 jobs:
   process-testfile:
@@ -13,26 +11,56 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create newtest.txt
+      - name: Create JSON file
         run: |
-          grep -v '^containerImagepath' testfile.txt > newtest.txt
+          echo '[
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/decision-service",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/decision-service/tags/1.5.4",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/decision-service/versions/sha256:460ca5652e6b54728d64957b9010301492011d0b7ed1fb0a8f0511cddce9f06b"
+            },
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/frontend",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/tags/frontendtag1",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/versions/sha256:306fe9516807b0fd89acdb777f5f39453608d3d3b00e22e09eeea9385e938f97"
+            },
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/frontend",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/tags/2.5.6",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/versions/sha256:306fe9516807b0fd89acdb777f5f39453608d3d3b00e22e09eeea9385e938f97"
+            },
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/frontend",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/tags/frontendtag3",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/versions/sha256:306fe9516807b0fd89acdb777f5f39453608d3d3b00e22e09eeea9385e938f97"
+            },
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/frontend",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/tags/1.5.3",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/versions/sha256:abff37cc35710eab06e4d89dee1cfba985ddee23f4bd2059e67cb8562258a0bc"
+            },
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/frontend",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/tags/service-frontend",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/frontend/versions/sha256:e01e4cb3c090bc96058fcc19b1a2be6eca22d69a0d6f39faf7fbdeeaf4c83a7b"
+            },
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/option-one",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/option-one/tags/1.4.4",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/option-one/versions/sha256:ee5c16f2ce9f320047121b0e7da5233f1fb86c0940ee078c66c1c7a766316b54"
+            },
+            {
+              "image": "northamerica-northeast1-docker.pkg.dev/martin-proj/gke-test/option-two",
+              "tag": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/option-two/tags/1.5.2",
+              "version": "projects/martin-proj/locations/northamerica-northeast1/repositories/gke-test/packages/option-two/versions/sha256:54318bff856fc642dc9cf847d5361b1709e69d327d844839faed0e04caa14a1d"
+            }
+          ]' > gar_tags.json
 
-      - name: Upload newtest.txt as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: newtest
-          path: newtest.txt
+      - name: Run extract tags script
+        id: extract_tags
+        run: python3 scripts/extract_tags.py
 
-  call-shared-on-branches:
-    needs: process-testfile
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: newtest
-
-      - name: Call shared workflow
-        uses: MartinJuneie/temp/.github/workflows/shared_wf.yml@main
-        with:
-          file-path: newtest.txt
+      - name: Print Output
+        run: |
+          echo "Latest tag: ${{ steps.extract_tags.outputs.largest_version }}"
+          echo "Second latest tag: ${{ steps.extract_tags.outputs.second_largest_version }}"
