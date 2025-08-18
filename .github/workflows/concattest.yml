@@ -25,7 +25,7 @@ jobs:
 
       - name: Set concatenated variable
         id: concat_val
-        run: echo "value=${{ matrix.gar_data }}:${{ steps.extract_tags.outputs.value }}" >> $GITHUB_OUTPUT
+        run: echo "value=${{ matrix.gar_data }}:${{ env.valuez }}" >> $GITHUB_OUTPUT
 
       - name: Create JSON
         run: |
