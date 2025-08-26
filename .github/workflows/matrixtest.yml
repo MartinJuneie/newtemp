@@ -2,6 +2,7 @@ name: Matrix Numbers Demo
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   generate-json:
@@ -12,7 +13,7 @@ jobs:
       - name: Generate JSON list 1–300
         id: make-json
         run: |
-          nums=$(seq -s, 1 256 | sed 's/,/","/g; s/^/["/; s/$/"]/')
+          nums=$(seq -s, 1 300 | sed 's/,/","/g; s/^/["/; s/$/"]/')
           echo "numbers=$nums" >> $GITHUB_OUTPUT
 
   print-numbers:
