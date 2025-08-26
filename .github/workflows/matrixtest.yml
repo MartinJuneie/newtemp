@@ -1,0 +1,27 @@
+name: Matrix Numbers Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-json:
+    runs-on: ubuntu-latest
+    outputs:
+      numbers: ${{ steps.make-json.outputs.numbers }}
+    steps:
+      - name: Generate JSON list 1–300
+        id: make-json
+        run: |
+          nums=$(seq -s, 1 256 | sed 's/,/","/g; s/^/["/; s/$/"]/')
+          echo "numbers=$nums" >> $GITHUB_OUTPUT
+
+  print-numbers:
+    needs: generate-json
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        num: ${{ fromJson(needs.generate-json.outputs.numbers) }}
+    steps:
+      - name: Print the number
+        run: echo "Number is ${{ matrix.num }}"

@@ -2,7 +2,7 @@ name: Concatenation Test
 
 on:
   workflow_dispatch:
-  push:
+  # push:
 
 jobs:
   process-testfile:
